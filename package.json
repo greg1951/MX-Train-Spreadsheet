@@ -1,0 +1,19 @@
+{
+  "name": "mx-train-spreadsheet",
+  "version": "1.0.0",
+  "description": "Mexican Train Spreadsheet Project in Google Apps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/greg1951/MX-Train-Spreadsheet.git"
+  },
+  "author": "Greg Hughlett",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/greg1951/MX-Train-Spreadsheet/issues"
+  },
+  "homepage": "https://github.com/greg1951/MX-Train-Spreadsheet#readme"
+}
