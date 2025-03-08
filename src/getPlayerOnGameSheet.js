@@ -10,7 +10,13 @@ function getPlayerOnGameSheet() {
   const NotGameSheets = {
     INSTRUCTIONS:     'INSTRUCTIONS',
     MMDDYY_TEMPLATE:  'MM-DD-YY TEMPLATE',
+    IGNORE_SHEET:     'IGNORE',
     SUMMARY:          'SUMMARY'
+  }
+  const HighlightColors = {
+    GREEN: 'lightgreen',
+    RED:   'pink',
+    GRAY:  'lightgray'
   }
   var allSheets=ss.getSheets();
   var summarySheet="";
@@ -29,6 +35,7 @@ function getPlayerOnGameSheet() {
       var thisSheetName=allSheets[i].getName();
       if (thisSheetName.toUpperCase() !== NotGameSheets.INSTRUCTIONS 
       && thisSheetName.toUpperCase()  !== NotGameSheets.SUMMARY
+      && thisSheetName.toUpperCase()  !== NotGameSheets.IGNORE
       && thisSheetName.toUpperCase()  !== NotGameSheets.MMDDYY_TEMPLATE) {
         gameSheetNames.push(thisSheetName);
         gameSheets.push(allSheets[i]);
@@ -120,17 +127,17 @@ function getPlayerOnGameSheet() {
         rangeD.setValue(player.score);
         if (winnerRow) {
           var rangeWinner = summarySheet.getRange('B' + parseInt(u+3) + ':D' + parseInt(u+3));
-          rangeWinner.setBackground('lightgreen');
+          rangeWinner.setBackground(HighlightColors.GREEN);
           winnerRow=false;
         }
         if (++loserIx > loserRow) {
           var rangeLoser = summarySheet.getRange('B' + parseInt(u+3) + ':D' + parseInt(u+3));
-          rangeLoser.setBackground('pink');
+          rangeLoser.setBackground(HighlightColors.RED);
         }
         u++;
       });
       var rangeBB = summarySheet.getRange('B' + parseInt(u+3) + ':D' + parseInt(u+3));
-      rangeBB.setBackground('lightgray');
+      rangeBB.setBackground(HighlightColors.GRAY);
       u++;
     }
     /* ---------------------------------------------------------------------------------

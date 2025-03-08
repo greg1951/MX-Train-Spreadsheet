@@ -12,6 +12,11 @@ function getPlayerOnGameSheet() {
     MMDDYY_TEMPLATE:  'MM-DD-YY TEMPLATE',
     SUMMARY:          'SUMMARY'
   }
+  const HighlightColors = {
+    GREEN: 'lightgreen',
+    RED:   'pink',
+    GRAY:  'lightgray'
+  }
   var allSheets=ss.getSheets();
   var summarySheet="";
   // The "u" variable controls the summary rows being added.
@@ -120,17 +125,17 @@ function getPlayerOnGameSheet() {
         rangeD.setValue(player.score);
         if (winnerRow) {
           var rangeWinner = summarySheet.getRange('B' + parseInt(u+3) + ':D' + parseInt(u+3));
-          rangeWinner.setBackground('lightgreen');
+          rangeWinner.setBackground(HighlightColors.GREEN);
           winnerRow=false;
         }
         if (++loserIx > loserRow) {
           var rangeLoser = summarySheet.getRange('B' + parseInt(u+3) + ':D' + parseInt(u+3));
-          rangeLoser.setBackground('pink');
+          rangeLoser.setBackground(HighlightColors.RED);
         }
         u++;
       });
       var rangeBB = summarySheet.getRange('B' + parseInt(u+3) + ':D' + parseInt(u+3));
-      rangeBB.setBackground('lightgray');
+      rangeBB.setBackground(HighlightColors.GRAY);
       u++;
     }
     /* ---------------------------------------------------------------------------------
