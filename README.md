@@ -58,6 +58,23 @@ A new game sheet provides a means to quickly assess who's winning (dark green) o
         * Use the **clasp push -w** command to automatically push changes from VS Code to Google Apps
     * **Bug alert**: Move the *src/.clasp.json* file to the root directory, otherwise the clasp push and pull commands will not work.
 
+# About Git
+* I find the dialogs in VS Code to be more confusing than simply running git commands. There are to be two branches in use on the project: *main* and *develop*. 
+
+    * The commands below assume that *main* is the production release and the *develop* branch is where ANY changes are made. 
+    * The commands are run in the VS Code Terminal window.
+1. Before changing any code (here or in the Google Apps script), create and checkout the *develop* branch.
+2. Make and test the changes in Google Apps script changes.
+3. Run **clasp pull** to update the local VS Code project from the Google Apps project.
+4. Run **git status** to verify the files that changed.
+5. Run **git add .** to stage the changes.
+6. Run **git commit -m "meaningful message"** to commit to the *develop* branch.
+7. Run **git fetch && git checkout main** to set current branch to *main*.
+8. Run **git merge develop** to merge *develop* into *main*.
+9. If there are conflicts you need to resolve them.
+10. Run **git push origin main** to publish to the remote GitHub repo.
+11. Maybe a good idea to simply run **git checkout develop** now so you don't accidentally change the local *main* branch.
+
 # Lessons Learned
 * I was chasing down a bug in the Leader Board where the very last row had a *12-31-99* date in it. The logic was golden. Even hard-coding a value in it retained the *12-31-99* date. Finally I set the column to a number format (##0) and it reverted from that date to a real number.
 
