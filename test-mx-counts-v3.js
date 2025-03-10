@@ -1,10 +1,5 @@
 console.log("STARTING test-mx-counts\n");
 
-// const gameStats = [
-//     {name: 'Fred', playedCount: 0, wonCount: 0, lostCount: 0},
-//     {name: 'John', playedCount: 0, wonCount: 0, lostCount: 0},
-//     {name: 'Alice', playedCount: 0, wonCount: 0, lostCount: 0},
-// ]
 var playerStats=[];
 const players1 = [
     {name: 'Fred', gameDate: '02-09-25', score: 200},
@@ -12,7 +7,6 @@ const players1 = [
     {name: 'John', gameDate: '02-09-25', score: 250},
 ]
 
-//players1.sort((a,b) => a.score - b.score);
 
 class LeaderBoard {
     constructor(players, playerStats) {
