@@ -58,3 +58,7 @@ A new game sheet provides a means to quickly assess who's winning (dark green) o
         * Use the **clasp push -w** command to automatically push changes from VS Code to Google Apps
     * **Bug alert**: Move the *src/.clasp.json* file to the root directory, otherwise the clasp push and pull commands will not work.
 
+# Lessons Learned
+* I was chasing down a bug in the Leader Board where the very last row had a *12-31-99* date in it. The logic was golden. Even hard-coding a value in it retained the *12-31-99* date. Finally I set the column to a number format (##0) and it reverted from that date to a real number.
+
+  **Make sure the formatting is set in the sheet correctly. Use the sheet formatting as much as possible and don't rely on script logic to do it.**
