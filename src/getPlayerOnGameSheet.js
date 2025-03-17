@@ -27,7 +27,8 @@ function getPlayerOnGameSheet() {getPlayerOnGameSheet
     GAME_HISTORY: 7,
     LEADER_LOW: 4,
     LEADER_HIGH: 8,
-    LEADER_STATS: 12 
+    LEADER_STATS: 12,
+    MAX_ROW: 200
   }
   class Player {
     constructor(name, score) {
@@ -203,7 +204,7 @@ function getPlayerOnGameSheet() {getPlayerOnGameSheet
         players.forEach(player => {
           console.log(player);
         });
-        var rangeClear = gameHistorySheet.getRange('A' + parseInt(u+RowOffsets.GAME_HISTORY) + ':C' + parseInt(200));
+        var rangeClear = gameHistorySheet.getRange('A' + parseInt(u+RowOffsets.GAME_HISTORY) + ':C' + parseInt(RowOffsets.MAX_ROW));
         rangeClear.clear();
         var winnerRow=true;
         var loserRow = players.length-1;
@@ -272,8 +273,17 @@ function getPlayerOnGameSheet() {getPlayerOnGameSheet
     rangeHigh3.setValue(highPlayer.score);
 
     console.log('Player Stats History...')
+    var rangeClear = leaderBoardSheet.getRange('A' + parseInt(u+RowOffsets.LEADER_STATS) + ':D' + parseInt(RowOffsets.MAX_ROW));
+    rangeClear.clear();
     var lineNbr=0;
-    playerStats.forEach((playerStat) => {
+    var sortedStats = playerStats.sort((a,b) => {
+      var nameA = a.name.toUpperCase();
+      var nameB = b.name.toUpperCase();
+      if (nameA < nameB) return -1;
+      else if (nameA > nameB) return +1;
+      else return 0;
+    });
+    sortedStats.forEach((playerStat) => {
       var rangeStat1 = leaderBoardSheet.getRange('A' + parseInt(lineNbr+RowOffsets.LEADER_STATS));
       rangeStat1.setValue(playerStat.name);
       var rangeStat2 = leaderBoardSheet.getRange('B' + parseInt(lineNbr+RowOffsets.LEADER_STATS));
