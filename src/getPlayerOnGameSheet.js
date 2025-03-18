@@ -46,8 +46,9 @@ function getPlayerOnGameSheet() {getPlayerOnGameSheet
 
   /*
     The Leaderboard class is responsible for iterating through the sheet players and producing 
-    the playerStats that summarizes the # games, # games and # games lost for each player. The
-    maps and playerStats are cummulative, updated while iterating through each of the game sheets.
+    the playerStats that summarizes the # games played, won, and lost for each player. The logPlayer 
+    and highPlayer maps, and playerStats are cummulative, updated while iterating through all of the 
+    game sheets.
   */
   class LeaderBoard {
     constructor(players, playerStats, lowPlayer, highPlayer) {
@@ -64,7 +65,7 @@ function getPlayerOnGameSheet() {getPlayerOnGameSheet
           we would find some and use the previous counts.
         */ 
         this.players.sort((a,b) => a.score - b.score);        
-        for (var ix=0; ix < this.players.length; ix++) {
+        for (let ix=0; ix < this.players.length; ix++) {
             var playerName=this.players[ix].name;
             var playerStat = this.playerStats.find(player => player.name === playerName);
             if (playerStat===undefined) {
@@ -75,7 +76,7 @@ function getPlayerOnGameSheet() {getPlayerOnGameSheet
             else console.log('Found player ' +playerName +' in playerStats');
         }
         // logic below to increment counters
-        for (var ix=0; ix < this.players.length; ix++) {
+        for (let ix=0; ix < this.players.length; ix++) {
             var playerName = this.players[ix].name;
             var playerScore=this.players[ix].score;
             var gameDate = this.players[ix].gameDate;
@@ -128,7 +129,7 @@ function getPlayerOnGameSheet() {getPlayerOnGameSheet
       for loop below will retrieve all of the game sheets, which are any sheets other than
       the Instructions or the Summary itself.
       ----------------------------------------------------------------------------------- */
-    for (var i=0; i < allSheets.length; i++) {
+    for (let i=0; i < allSheets.length; i++) {
       var thisSheetName=allSheets[i].getName();
       if (thisSheetName.toUpperCase() !== NotGameSheets.INSTRUCTIONS
       && thisSheetName.toUpperCase()  !== NotGameSheets.GAME_HISTORY
@@ -150,11 +151,10 @@ function getPlayerOnGameSheet() {getPlayerOnGameSheet
       A little defensive programming before starting
       ----------------------------------------------------------------------------------- */
     if (gameHistorySheet.length==0)
-      throw Error('The Game History sheet was not found and is required.');
+      throw Error('The "Game History" sheet was not found and it is required.');
     if (leaderBoardSheet.length==0)
-      throw Error('The Leaderboard sheet was not found and is required.');
+      throw Error('The "Leader Board" sheet was not found and it is required.');
     if (gameSheets.length==0) {
-      errorMessage='There must be at least one actual gamesheet in the Spreadsheet.';
       throw Error('There must be at least one actual gamesheet in the Spreadsheet.');
     }
 
@@ -162,7 +162,7 @@ function getPlayerOnGameSheet() {getPlayerOnGameSheet
       for loop below will process all of the game sheets in the spreadsheet.
       The sheet name should ideally be in a mm-dd-yy format to appear in Summary nicely.
       ----------------------------------------------------------------------------------- */
-    for (var gi=0; gi < gameSheetNames.length; gi++) {
+    for (let gi=0; gi < gameSheetNames.length; gi++) {
       var currentGameSheetName = gameSheetNames[gi];
       var currentGameSheet = gameSheets[gi];
       Logger.log('currentGameSheet: ' +currentGameSheetName);
@@ -170,7 +170,7 @@ function getPlayerOnGameSheet() {getPlayerOnGameSheet
 
       /* ---------------------------------------------------------------------------------
         Iterate through all of the game sheet rows, capturing name, score and the game date.
-        Same data shown below.
+        Example shown below.
         ----------------------------------------------------------------------------------- */
       // const players = [
       //     {name: 'Fred', gameDate: '02-09-25', score: 200},
@@ -178,7 +178,7 @@ function getPlayerOnGameSheet() {getPlayerOnGameSheet
       //     {name: 'John', gameDate: '02-09-25', score: 250},
       // ]
       var gameSheetData = sheet.getDataRange().getValues();
-      for (var i = 1; i <= gameSheetData.length; i++) {
+      for (let i = 1; i <= gameSheetData.length; i++) {
           /*
             Only the first player row is required, the score can be extracted from 
             the last row in the range.
@@ -201,9 +201,9 @@ function getPlayerOnGameSheet() {getPlayerOnGameSheet
           B-D. Each game sheet rows will be separated with an empty gray highlighted row.
           ----------------------------------------------------------------------------------- */
         console.log('Start GAME HISTORY...');
-        players.forEach(player => {
-          console.log(player);
-        });
+        // players.forEach(player => {
+        //   console.log(player);
+        // });
         var rangeClear = gameHistorySheet.getRange('A' + parseInt(u+RowOffsets.GAME_HISTORY) + ':C' + parseInt(RowOffsets.MAX_ROW));
         rangeClear.clear();
         var winnerRow=true;
@@ -300,6 +300,7 @@ function getPlayerOnGameSheet() {getPlayerOnGameSheet
     SpreadsheetApp.setActiveSheet(gameHistorySheet);
   }
   catch (error) {
-    SpreadsheetApp.getUi().alert(errorMessage);
+    console.error('Something bad happened: ' + error);
+    Browser.msgBox('Oops! ' + error);
   }
 }
