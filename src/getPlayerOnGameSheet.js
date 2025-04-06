@@ -170,7 +170,7 @@ function getPlayerOnGameSheet() {getPlayerOnGameSheet
 
       /* ---------------------------------------------------------------------------------
         Iterate through all of the game sheet rows, capturing name, score and the game date.
-        Example shown below.
+        Example shown below. If there is no player name, ignore the count.
         ----------------------------------------------------------------------------------- */
       // const players = [
       //     {name: 'Fred', gameDate: '02-09-25', score: 200},
@@ -178,7 +178,9 @@ function getPlayerOnGameSheet() {getPlayerOnGameSheet
       //     {name: 'John', gameDate: '02-09-25', score: 250},
       // ]
       var gameSheetData = sheet.getDataRange().getValues();
-      for (let i = 1; i <= gameSheetData.length; i++) {
+
+      // Process game sheet rows
+      for (let i = 1; i <= gameSheetData.length; i++) { // row 0 is the header
           /*
             Only the first player row is required, the score can be extracted from 
             the last row in the range.
@@ -186,10 +188,14 @@ function getPlayerOnGameSheet() {getPlayerOnGameSheet
           if (i==1) {
             var gameTotalRow=gameSheetData.length-1;
             Logger.log('length: ' + gameTotalRow);
-  
-            for (var playerIx=1; playerIx < gameSheetData[i].length; playerIx++) {
-              var player = new Player(gameSheetData[i][playerIx], gameSheetData[gameTotalRow][playerIx]);
-              players.push(player);  
+
+            // Process player columns    
+            for (var playerIx=1; playerIx < gameSheetData[i].length; playerIx++) { // col 0 is a header
+              let playerName=gameSheetData[1][playerIx].trim();
+              if (playerName.length !== 0) { // no player name, skip
+                var player = new Player(gameSheetData[i][playerIx], gameSheetData[gameTotalRow][playerIx]);
+                players.push(player);  
+              }
             }
           }
           else break;
