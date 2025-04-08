@@ -193,7 +193,10 @@ function getPlayerOnGameSheet() {getPlayerOnGameSheet
             for (var playerIx=1; playerIx < gameSheetData[i].length; playerIx++) { // col 0 is a header
               let playerName=gameSheetData[1][playerIx].trim();
               if (playerName.length !== 0) { // no player name, skip
-                var player = new Player(gameSheetData[i][playerIx], gameSheetData[gameTotalRow][playerIx]);
+                let score=gameSheetData[gameTotalRow][playerIx];
+                if (typeof score !== "number") // edge case where player column but no scoring
+                  score=0;
+                var player = new Player(gameSheetData[i][playerIx], score);
                 players.push(player);  
               }
             }
