@@ -177,26 +177,29 @@ function getPlayerOnGameSheet() {getPlayerOnGameSheet
       //     {name: 'Alice', gameDate: '02-09-25', score: 145},
       //     {name: 'John', gameDate: '02-09-25', score: 250},
       // ]
-      var gameSheetData = sheet.getDataRange().getValues();
+      let gameSheetData = sheet.getDataRange().getValues();
+      Logger.log('# of gamesheets rows: ' +gameSheetData.length);
 
-      // Process game sheet rows
-      for (let i = 1; i <= gameSheetData.length; i++) { // row 0 is the header
+      // Process game sheet rows (Row 0 is a header containing the Player Name)
+      for (let ri = 0; ri <= gameSheetData.length; ri++) {
           /*
             Only the first player row is required, the score can be extracted from 
             the last row in the range.
           */
-          if (i==1) {
-            var gameTotalRow=gameSheetData.length-1;
-            Logger.log('length: ' + gameTotalRow);
+          if (ri==0) {
+            let gameTotalRow=gameSheetData.length;
+            Logger.log('Game Total row: ' + gameTotalRow);
 
-            // Process player columns    
-            for (var playerIx=1; playerIx < gameSheetData[i].length; playerIx++) { // col 0 is a header
-              let playerName=gameSheetData[1][playerIx].trim();
+            // Process player columns (Column 0 is a header)
+            for (let ci=1; ci < gameSheetData[ri].length; ci++) { 
+              console.log('player name: ' +gameSheetData[ri][ci]);
+
+              let playerName=gameSheetData[0][ci].trim();
               if (playerName.length !== 0) { // no player name, skip
-                let score=gameSheetData[gameTotalRow][playerIx];
+                let score=gameSheetData[gameTotalRow-1][ci];
                 if (typeof score !== "number") // edge case where player column but no scoring
                   score=0;
-                var player = new Player(gameSheetData[i][playerIx], score);
+                var player = new Player(gameSheetData[ri][ci], score);
                 players.push(player);  
               }
             }
